@@ -4,6 +4,7 @@ public class User {
     private String Name;
     private String Password;
     private String Phone;
+//    private String IsStaff;
 
 
     public User() {
@@ -39,4 +40,12 @@ public class User {
     public void setPassword(String password) {
         Password = password;
     }
+
+    /*public String getIsStaff() {
+        return IsStaff;
+    }
+
+    public void setIsStaff(String isStaff) {
+        IsStaff = isStaff;
+    }*/
 }

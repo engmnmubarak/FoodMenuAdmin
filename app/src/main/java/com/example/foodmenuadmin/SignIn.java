@@ -61,7 +61,7 @@ public class SignIn extends AppCompatActivity {
                         mDialog.setMessage("Please wait...");
                         mDialog.show();
 
-                        //check if user exiest in database
+                        //check if user exiest in firebaseDatabase
                         if(dataSnapshot.child(edtPhone.getText().toString()).exists()) {
 
 
@@ -69,25 +69,26 @@ public class SignIn extends AppCompatActivity {
                             mDialog.dismiss();
 
 
-
                             User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                             user.setPhone(edtPhone.getText().toString());//set Phone
-                            if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                {
-                                    Intent homeIntent = new Intent(SignIn.this,Home.class);
-                                    Common.currentUser = user;
+//                            if (Boolean.parseBoolean(user.getIsStaff())) {
+                                if (user.getPassword().equals(edtPassword.getText().toString())) {
+                                    {
+                                        Intent homeIntent = new Intent(SignIn.this, CategoryList.class);
+                                        Common.currentUser = user;
 
-                                    startActivity(homeIntent);
+                                        startActivity(homeIntent);
 
-                                    finish();
+                                        finish();
 
-                                }
+                                    }
 
 
-                            } else
-                                Toast.makeText(SignIn.this, "Sign In Faild", Toast.LENGTH_SHORT).show();
+                                } else
+                                    Toast.makeText(SignIn.this, "Sign In Faild", Toast.LENGTH_SHORT).show();
 
-                        }
+                            }
+//                        }
                         else
                         {
                             mDialog.dismiss();
