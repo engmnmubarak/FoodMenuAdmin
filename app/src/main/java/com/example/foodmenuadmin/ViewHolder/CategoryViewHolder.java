@@ -16,7 +16,7 @@ import static com.example.foodmenuadmin.Common.Common.UPDATE;
  * Created by engmnmubarak on 3/18/2018.
  */
 
-public class MenuViewHolder extends RecyclerView.ViewHolder implements
+public class CategoryViewHolder extends RecyclerView.ViewHolder implements
         View.OnClickListener,
         View.OnCreateContextMenuListener
 
@@ -27,7 +27,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements
 
     private ItemClickListener itemClickListener;
 
-    public MenuViewHolder(View itemView) {
+    public CategoryViewHolder(View itemView) {
         super(itemView);
 
         txtMenuName = (TextView)itemView.findViewById(R.id.menu_name);
@@ -49,7 +49,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements
 
     @Override
     public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-        contextMenu.setHeaderTitle("Select the actiom");
+        contextMenu.setHeaderTitle("Select the action");
 
         contextMenu.add(0,0,getAdapterPosition(),UPDATE);
         contextMenu.add(0,0,getAdapterPosition(),DELETE);

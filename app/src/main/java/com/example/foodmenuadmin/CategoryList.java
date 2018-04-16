@@ -27,7 +27,7 @@ import android.widget.Toast;
 import com.example.foodmenuadmin.Common.Common;
 import com.example.foodmenuadmin.Interface.ItemClickListener;
 import com.example.foodmenuadmin.Model.Category;
-import com.example.foodmenuadmin.ViewHolder.MenuViewHolder;
+import com.example.foodmenuadmin.ViewHolder.CategoryViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,7 +49,7 @@ public class CategoryList extends AppCompatActivity
 
     FirebaseDatabase database;
     DatabaseReference category;
-    FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter;
+    FirebaseRecyclerAdapter<Category,CategoryViewHolder> adapter;
     FirebaseStorage storage;
     StorageReference storageReference;
     RecyclerView recycler_menu;
@@ -66,7 +66,7 @@ public class CategoryList extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Menu");
+        toolbar.setTitle("Category");
         setSupportActionBar(toolbar);
 
         database = FirebaseDatabase.getInstance();
@@ -78,10 +78,7 @@ public class CategoryList extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                showDialog();
-//                Intent cartIntent = new Intent(CategoryList.this,Cart.class);
-//                startActivity(cartIntent);
-
+                showInsertDialog();
             }
         });
 
@@ -90,7 +87,6 @@ public class CategoryList extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
@@ -101,13 +97,9 @@ public class CategoryList extends AppCompatActivity
         layoutManager = new LinearLayoutManager(this);
         recycler_menu.setLayoutManager(layoutManager);
         loadMenu();
-
-
-
-
     }
 
-    private void showDialog() {
+    private void showInsertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(CategoryList.this);
         builder.setTitle("Add New Category");
         builder.setMessage("Please fill All Fields");
@@ -119,20 +111,14 @@ public class CategoryList extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 chooseImage();//let user select image from galary
-
-
             }
         });
-
-
-
 
         btnUpload = add_menu_layout.findViewById(R.id.btnUpload);
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 uploadImage();
-
             }
         });
         builder.setView(add_menu_layout);
@@ -140,7 +126,6 @@ public class CategoryList extends AppCompatActivity
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
 
                 dialogInterface.dismiss();
                 if(newCategory != null)
@@ -153,12 +138,7 @@ public class CategoryList extends AppCompatActivity
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
-
-
                 dialogInterface.dismiss();
-
-
             }
         });
 builder.show();
@@ -208,6 +188,13 @@ builder.show();
         }
     }
 
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("/image*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Pecture"),PICK_IMAGE_REQUEST);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -220,22 +207,15 @@ builder.show();
         }
     }
 
-    private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("/image*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Pecture"),PICK_IMAGE_REQUEST);
-    }
-
     private void loadMenu() {
-        adapter =new FirebaseRecyclerAdapter<Category, MenuViewHolder>(
+        adapter =new FirebaseRecyclerAdapter<Category, CategoryViewHolder>(
                 Category.class,
                 R.layout.menu_item,
-                MenuViewHolder.class,
+                CategoryViewHolder.class,
                 category
         ) {
             @Override
-            protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
+            protected void populateViewHolder(CategoryViewHolder viewHolder, Category model, int position) {
                 viewHolder.txtMenuName.setText(model.getName());
                 Picasso.with(getBaseContext()).load(model.getImage())
                         .into(viewHolder.imageView);
@@ -334,8 +314,6 @@ builder.show();
             @Override
             public void onClick(View view) {
                 chooseImage();//let user select image from galary
-
-
             }
         });
 
@@ -356,7 +334,6 @@ builder.show();
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-
                 dialogInterface.dismiss();
                item.setName(edtName.getText().toString());
                category.child(key).setValue(item);
@@ -366,12 +343,7 @@ builder.show();
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
-
-
                 dialogInterface.dismiss();
-
-
             }
         });
         builder.show();
@@ -417,7 +389,6 @@ builder.show();
 
                         }
                     });
-
         }
     }
 }
