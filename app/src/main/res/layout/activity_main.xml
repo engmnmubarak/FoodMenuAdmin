@@ -43,17 +43,17 @@
 
         <Button
             android:id="@+id/btnSignUp"
-            android:text="Sign Up"
+            android:text="Add User"
             android:textColor="@android:color/white"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
 
             />
 
-        <Button
+        <!--<Button
             android:id="@+id/btnSignIn"
             android:text="Sign In"
             android:textColor="@android:color/white"
@@ -61,9 +61,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@color/btnSignIn"
+            android:background="@color/colorPrimaryDark"
 
-            />
+            />-->
 
     </LinearLayout>
 

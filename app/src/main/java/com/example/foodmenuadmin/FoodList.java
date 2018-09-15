@@ -130,7 +130,7 @@ public class FoodList extends AppCompatActivity
             }
         });
         builder.setView(add_food_layout);
-        builder.setIcon(R.drawable.ic_add_circle_black_24dp);
+        builder.setIcon(R.drawable.ic_add_circle);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -158,11 +158,24 @@ public class FoodList extends AppCompatActivity
 
     }
 
-    private void chooseImage() {
+    /*private void chooseImage() {
         Intent intent = new Intent();
         intent.setType("/image*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Pecture"), PICK_IMAGE_REQUEST);
+    }*/
+
+    private void chooseImage() {
+
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+
+        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+        startActivityForResult(Intent.createChooser(chooserIntent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     private void uploadImage() {
@@ -248,9 +261,7 @@ public class FoodList extends AppCompatActivity
 
         if (id == R.id.nav_menu) {
 
-        } else if (id == R.id.nav_cart) {
-
-        } else if (id == R.id.nav_orders) {
+        }  else if (id == R.id.nav_orders) {
 
         } else if (id == R.id.nav_logout) {
             Intent logoutIntent = new Intent(FoodList.this,MainActivity.class);
@@ -319,7 +330,7 @@ public class FoodList extends AppCompatActivity
             }
         });
         builder.setView(add_food_layout);
-        builder.setIcon(R.drawable.ic_shopping_cart_black_24dp);
+        builder.setIcon(R.drawable.ic_cart_green);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

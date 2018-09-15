@@ -1,6 +1,7 @@
 package com.example.foodmenuadmin;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent signUp = new Intent(MainActivity.this,SignUp.class);
-//                startActivity(signUp);
+                Intent signUp = new Intent(MainActivity.this,SignUp.class);
+                startActivity(signUp);
 
             }
         });

@@ -73,6 +73,7 @@ public class CategoryList extends AppCompatActivity
         category = database.getReference("Category");
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +92,7 @@ public class CategoryList extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
-        txtFullName.setText(Common.currentUser.getName());
+        /*txtFullName.setText(Common.currentUser.getName());*/
         recycler_menu = (RecyclerView)findViewById(R.id.recycler_menu);
         recycler_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -104,7 +105,7 @@ public class CategoryList extends AppCompatActivity
         builder.setTitle("Add New Category");
         builder.setMessage("Please fill All Fields");
         LayoutInflater inflater = this.getLayoutInflater();
-        View add_menu_layout = inflater.inflate(R.layout.add_new_food_layout, null);
+        View add_menu_layout = inflater.inflate(R.layout.add_new_menu_layout, null);
         edtName =add_menu_layout.findViewById(R.id.edtName);
         btnSelect = add_menu_layout.findViewById(R.id.btnSelect);
         btnSelect.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +123,7 @@ public class CategoryList extends AppCompatActivity
             }
         });
         builder.setView(add_menu_layout);
-        builder.setIcon(R.drawable.ic_add_circle_black_24dp);
+        builder.setIcon(R.drawable.ic_add_circle);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -141,7 +142,8 @@ public class CategoryList extends AppCompatActivity
                 dialogInterface.dismiss();
             }
         });
-builder.show();
+
+            builder.show();
 
     }
 
@@ -152,7 +154,7 @@ builder.show();
             dialog.setMessage("Uploading...");
             dialog.show();
 
-            String imageName = UUID.randomUUID().toString();
+            final String imageName = UUID.randomUUID().toString();
             final StorageReference imageFolder = storageReference.child("images/"+imageName);
             imageFolder.putFile(saveUrl)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -163,7 +165,9 @@ builder.show();
                             imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    newCategory = new Category(edtName.getText().toString(),uri.toString());
+                                    newCategory = new Category(
+                                            edtName.getText().toString()
+                                            ,uri.toString());
 
                                 }
                             });
@@ -188,11 +192,24 @@ builder.show();
         }
     }
 
-    private void chooseImage() {
+    /*private void chooseImage() {
         Intent intent = new Intent();
         intent.setType("/image*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Pecture"),PICK_IMAGE_REQUEST);
+    }*/
+
+    private void chooseImage() {
+
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+
+        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+        startActivityForResult(Intent.createChooser(chooserIntent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -200,12 +217,15 @@ builder.show();
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode  == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data!= null && data.getData()!= null)
+                /*&& data!= null && data.getData()!= null*/)
         {
+            if(data!= null && data.getData()!= null) {
             saveUrl = data.getData();
             btnSelect.setText("Image Selected.");
-        }
+            }
+            }
     }
+
 
     private void loadMenu() {
         adapter =new FirebaseRecyclerAdapter<Category, CategoryViewHolder>(
@@ -264,19 +284,17 @@ builder.show();
 
         if (id == R.id.nav_menu) {
 
-        } else if (id == R.id.nav_cart) {
-//            Intent cartIntent = new Intent(CategoryList.this,Cart.class);
-//            startActivity(cartIntent);
-
         } else if (id == R.id.nav_orders) {
             Intent ordersIntent = new Intent(CategoryList.this,OrderStatus.class);
             startActivity(ordersIntent);
         } else if (id == R.id.nav_logout) {
-            Intent logoutIntent = new Intent(CategoryList.this,SignIn.class);
+            Intent logoutIntent = new Intent(CategoryList.this,AdminActivity.class);
             logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Toast.makeText(CategoryList.this,"Loging out...",Toast.LENGTH_SHORT).show();
             startActivity(logoutIntent);
-
+        }else if (id == R.id.nav_add_user) {
+            Intent adduser = new Intent(CategoryList.this,SignUp.class);
+            startActivity(adduser);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -307,8 +325,10 @@ builder.show();
         builder.setMessage("Please fill All Fields");
         LayoutInflater inflater = this.getLayoutInflater();
         View add_menu_layout = inflater.inflate(R.layout.add_new_menu_layout, null);
+
         edtName =add_menu_layout.findViewById(R.id.edtName);
         edtName.setText(item.getName());
+
         btnSelect = add_menu_layout.findViewById(R.id.btnSelect);
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -329,7 +349,7 @@ builder.show();
             }
         });
         builder.setView(add_menu_layout);
-        builder.setIcon(R.drawable.ic_shopping_cart_black_24dp);
+        builder.setIcon(R.drawable.ic_cart_green);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

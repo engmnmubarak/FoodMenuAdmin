@@ -38,7 +38,7 @@
             <Button
                 android:id="@+id/btnSelect"
                 android:text="SELECT"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_weight="1"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
@@ -47,14 +47,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:shadowColor="@android:color/black"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorPrimaryDark"
 
 
                 />
             <Button
                 android:id="@+id/btnUpload"
                 android:text="UPLOAD"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_weight="1"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
