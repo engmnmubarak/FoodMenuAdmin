@@ -22,6 +22,7 @@
         <activity android:name=".SignUp" />
         <activity android:name=".CategoryList" />
         <activity android:name=".FoodList" />
+        <activity android:name=".UsersList" />
         <activity android:name=".OrderStatus"></activity>
     </application>
 

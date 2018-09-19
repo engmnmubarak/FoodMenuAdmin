@@ -285,17 +285,29 @@ public class CategoryList extends AppCompatActivity
         if (id == R.id.nav_menu) {
 
         } else if (id == R.id.nav_orders) {
+
             Intent ordersIntent = new Intent(CategoryList.this,OrderStatus.class);
             startActivity(ordersIntent);
+
         } else if (id == R.id.nav_logout) {
+
             Intent logoutIntent = new Intent(CategoryList.this,AdminActivity.class);
             logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Toast.makeText(CategoryList.this,"Loging out...",Toast.LENGTH_SHORT).show();
             startActivity(logoutIntent);
+
         }else if (id == R.id.nav_add_user) {
+
             Intent adduser = new Intent(CategoryList.this,SignUp.class);
             startActivity(adduser);
+
+        } else if (id == R.id.nav_users) {
+
+            Intent user = new Intent(CategoryList.this,UsersList.class);
+            startActivity(user);
+
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

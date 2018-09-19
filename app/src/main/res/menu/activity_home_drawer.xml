@@ -6,6 +6,10 @@
             android:icon="@drawable/ic_restaurant_black_24dp"
             android:title="Menu" />
         <item
+            android:id="@+id/nav_users"
+            android:icon="@drawable/ic_user"
+            android:title="Users" />
+        <item
             android:id="@+id/nav_add_user"
             android:icon="@drawable/ic_add_circle_black_24dp"
             android:title="Add User" />
