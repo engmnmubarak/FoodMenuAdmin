@@ -195,13 +195,6 @@ public class CategoryList extends AppCompatActivity
         }
     }
 
-    /*private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("/image*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Pecture"),PICK_IMAGE_REQUEST);
-    }*/
-
     private void chooseImage() {
 
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);

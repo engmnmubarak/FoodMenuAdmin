@@ -1,24 +1,15 @@
 package com.example.foodmenuadmin;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
+
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.foodmenuadmin.Model.User;
 import com.example.foodmenuadmin.ViewHolder.UserListViewHolder;
@@ -33,7 +24,7 @@ public class UsersList extends AppCompatActivity {
     DatabaseReference users;
     FirebaseRecyclerAdapter<User,UserListViewHolder> adapter;
 
-    RecyclerView recycler_menu;
+    RecyclerView recycler_user;
     RecyclerView.LayoutManager layoutManager;
 
     User newusers;
@@ -41,17 +32,19 @@ public class UsersList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_users);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Users");
+        setSupportActionBar(toolbar);*/
 
         database = FirebaseDatabase.getInstance();
         users = database.getReference("User");
 
-        recycler_menu = (RecyclerView)findViewById(R.id.recycler_user);
-        recycler_menu.setHasFixedSize(true);
+        recycler_user = (RecyclerView)findViewById(R.id.recycler_user);
+        recycler_user.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        recycler_menu.setLayoutManager(layoutManager);
+        recycler_user.setLayoutManager(layoutManager);
         loadUsers();
     }
 
@@ -80,7 +73,8 @@ public class UsersList extends AppCompatActivity {
                     });*/
                 }
                 };
-        recycler_menu.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        recycler_user.setAdapter(adapter);
     }
 
     @Override
