@@ -50,7 +50,7 @@ public class FoodList extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager;
     FloatingActionButton fab;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference foodList;
     FirebaseRecyclerAdapter<Food, FoodViewHolder> recyclerAdapter;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
@@ -68,7 +68,7 @@ public class FoodList extends AppCompatActivity
         setContentView(R.layout.activity_food_list);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Foods");
+        foodList = firebaseDatabase.getReference("Foods");
 
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
@@ -138,7 +138,7 @@ public class FoodList extends AppCompatActivity
 
                 dialogInterface.dismiss();
                 if (newFood != null) {
-                    databaseReference.push().setValue(newFood);
+                    foodList.push().setValue(newFood);
                     Snackbar.make(rootLayout, "New food" + newFood.getName() + "was added", Snackbar.LENGTH_SHORT);
                 }
 
@@ -157,13 +157,6 @@ public class FoodList extends AppCompatActivity
         builder.show();
 
     }
-
-    /*private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("/image*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Pecture"), PICK_IMAGE_REQUEST);
-    }*/
 
     private void chooseImage() {
 
@@ -231,7 +224,7 @@ public class FoodList extends AppCompatActivity
                 Food.class,
                 R.layout.food_item,
                 FoodViewHolder.class,
-                databaseReference.orderByChild("menuId").equalTo(categoryId)
+                foodList.orderByChild("menuId").equalTo(categoryId)
         ) {
             @Override
             protected void populateViewHolder(FoodViewHolder viewHolder, Food model, int position) {
@@ -289,7 +282,7 @@ public class FoodList extends AppCompatActivity
 
 
     private void showDeleteDialog(String key) {
-        databaseReference.child(key).removeValue();
+        foodList.child(key).removeValue();
         Toast.makeText(this, "Item deleted", Toast.LENGTH_SHORT).show();
     }
 
@@ -314,12 +307,9 @@ public class FoodList extends AppCompatActivity
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chooseImage();//let user select image from galary
-
-
+                chooseImage();
             }
         });
-
 
         btnUpload = add_food_layout.findViewById(R.id.btnUpload);
         btnUpload.setOnClickListener(new View.OnClickListener() {
@@ -335,17 +325,17 @@ public class FoodList extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-
                 dialogInterface.dismiss();
-                if (newFood != null) {
+                /*if (newFood != null) {*/
+
                     item.setName(edtName.getText().toString());
                     item.setDescription(edtDescription.getText().toString());
                     item.setPrice(edtPrice.getText().toString());
                     item.setDiscount(edtDiscount.getText().toString());
 
-                    databaseReference.child(key).setValue(newFood);
-                    Snackbar.make(rootLayout, "New food" + newFood.getName() + "was added", Snackbar.LENGTH_SHORT);
-                }
+                    foodList.child(key).setValue(item);
+                    Snackbar.make(rootLayout, "New food" + item.getName() + "was added", Snackbar.LENGTH_SHORT);
+                /*}*/
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -12,23 +12,22 @@ import com.example.foodmenuadmin.R;
 import static com.example.foodmenuadmin.Common.Common.DELETE;
 import static com.example.foodmenuadmin.Common.Common.UPDATE;
 
-
-public class CategoryViewHolder extends RecyclerView.ViewHolder implements
+public class UserListViewHolder extends RecyclerView.ViewHolder implements
         View.OnClickListener,
         View.OnCreateContextMenuListener
 
 {
 
-    public TextView txtMenuName;
-    public ImageView imageView;
+    public TextView txtusername;
+    public TextView txtuserphone;
 
     private ItemClickListener itemClickListener;
 
-    public CategoryViewHolder(View itemView) {
+    public UserListViewHolder(View itemView) {
         super(itemView);
 
-        txtMenuName = (TextView)itemView.findViewById(R.id.menu_name);
-        imageView = (ImageView)itemView.findViewById(R.id.menu_image);
+        txtusername = (TextView)itemView.findViewById(R.id.username);
+        txtuserphone = (TextView)itemView.findViewById(R.id.phone);
         itemView.setOnCreateContextMenuListener(this);
         itemView.setOnClickListener(this);
     }

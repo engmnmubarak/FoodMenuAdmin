@@ -59,6 +59,7 @@ public class CategoryList extends AppCompatActivity
     Button btnUpload,btnSelect;
     Category newCategory;
     Uri saveUrl;
+    private final int PICK_IMAGE_REQUEST = 71;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class CategoryList extends AppCompatActivity
 
         database = FirebaseDatabase.getInstance();
         category = database.getReference("Category");
+
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
@@ -107,6 +109,7 @@ public class CategoryList extends AppCompatActivity
         LayoutInflater inflater = this.getLayoutInflater();
         View add_menu_layout = inflater.inflate(R.layout.add_new_menu_layout, null);
         edtName =add_menu_layout.findViewById(R.id.edtName);
+
         btnSelect = add_menu_layout.findViewById(R.id.btnSelect);
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,8 +169,8 @@ public class CategoryList extends AppCompatActivity
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     newCategory = new Category(
-                                            edtName.getText().toString()
-                                            ,uri.toString());
+                                           uri.toString(),
+                                    edtName.getText().toString());
 
                                 }
                             });
@@ -217,12 +220,12 @@ public class CategoryList extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode  == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                /*&& data!= null && data.getData()!= null*/)
+                && data!= null && data.getData()!= null)
         {
-            if(data!= null && data.getData()!= null) {
+            /*if(data!= null && data.getData()!= null) {*/
             saveUrl = data.getData();
             btnSelect.setText("Image Selected.");
-            }
+            /*}*/
             }
     }
 
@@ -250,6 +253,7 @@ public class CategoryList extends AppCompatActivity
                 });
             }
         };
+        adapter.notifyDataSetChanged();
         recycler_menu.setAdapter(adapter);
     }
 
